@@ -51,15 +51,15 @@
     </div>
     <script>
 db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE prestamos (prestamo,nombre,identificacion,cuota)');
+    tx.executeSql('CREATE TABLE prestamos (prestamo,nombre,identificacion,cuota,key)');
 });
 
 db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE pago_prestamo (prestamo,cuota)');
+    tx.executeSql('CREATE TABLE pago_prestamo (prestamo,cuota,key)');
 });
 
 db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE cobro (cobro_id)');
+    tx.executeSql('CREATE TABLE cobro (cobro_id,key)');
 });
       db.transaction(function (tx) {
         tx.executeSql('SELECT * FROM cobro', [], function (tx, results) {

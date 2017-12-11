@@ -12,11 +12,11 @@ $(function() {
 			if(json.length==0){
 				alert('Pin incorrecto');
 			}else{
-				console.log(json[0].cobro_id);
-				location.href ="app.html";
+				console.log(json[0]);
 				db.transaction(function (tx) {
-				  tx.executeSql('INSERT INTO cobro (cobro_id) VALUES ('+json[0].cobro_id+')');
+				  tx.executeSql('INSERT INTO cobro (cobro_id,key) VALUES ('+json[0].cobro_id+','+json[0].key+')');
 				});
+				location.href ="app.html";
 			}
 		});
 	});
@@ -38,13 +38,14 @@ function sync(){
           var len = results.rows.length, i;
           for (i = 0; i < len; i++) {
             var cobro=(results.rows.item(i).cobro_id);
+            var keys=results.rows.item(i).key;
             	var uri=url+'prestamos/'+cobro;
 				console.log(uri);
 				$.getJSON(uri, function(json, textStatus) {
 					$.each( json, function( key, val ) {
 					   console.log(val);
 					   	db.transaction(function (tx) {
-						  tx.executeSql('INSERT INTO prestamos (prestamo,nombre,identificacion,cuota) VALUES ("'+val.ide+'","'+val.nombre+'","'+val.identificacion+'","'+val.cuota+'")');
+						  tx.executeSql('INSERT INTO prestamos (prestamo,nombre,identificacion,cuota,key) VALUES ("'+val.ide+'","'+val.nombre+'","'+val.identificacion+'","'+val.cuota+'","'+keys+'")');
 						});
 					});
 				});
@@ -78,7 +79,7 @@ function mostrar_prestamos(){
 					 '<td>'+results.rows.item(i).nombre+'</td>'+
 					 '<td>'+results.rows.item(i).identificacion+'</td>'+
 					 '<td>'+results.rows.item(i).cuota+'</td>'+
-					 '<td onclick="pagar('+results.rows.item(i).cuota+','+results.rows.item(i).prestamo+')" >Pagar</td>'+
+					 '<td style="text-align: center;background: #512da8;color: #fff;font-weight: bold;" onclick="pagar('+results.rows.item(i).cuota+','+results.rows.item(i).prestamo+','+results.rows.item(i).key+')" >Pagar</td>'+
 					 '</tr>';
           }
            $("#tabla").append(d);
@@ -87,13 +88,13 @@ function mostrar_prestamos(){
       });	
 }
 
-function pagar(cuota,prestamo){
+function pagar(cuota,prestamo,key){
 	var x = prompt("Digite Monto a pagar", cuota);
 	var r = confirm("Estas seguro de pagar?");
 	if (r == true) {
 	    var num = parseInt(x);
 		db.transaction(function (tx) {
-			tx.executeSql('INSERT INTO pago_prestamo (prestamo,cuota) VALUES ("'+prestamo+'","'+num+'")');
+			tx.executeSql('INSERT INTO pago_prestamo (prestamo,cuota,key) VALUES ("'+prestamo+'","'+num+'","'+key+'")');
 			$('#'+prestamo).hide();
 		});
 	}
@@ -109,13 +110,15 @@ function upload(){
           	alert('No tienes pagos que subir');
           }else{
           	  for (i = 0; i < len; i++) {
-          	  	var uri=url+'key/';
-				console.log(url);/*
+          	  	var uri=url+'prestamos/'+results.rows.item(i).prestamo+'/'+results.rows.item(i).cuota+'/'+results.rows.item(i).key;
+				console.log(uri);
+
 				$.getJSON(uri, function(json, textStatus) {
 					console.log(json);
 				});
+				
 				console.log(results.rows.item(i));
-				*/
+			
 	          	if(len==i+1){
       				db.transaction(function (tx) {tx.executeSql('DELETE FROM pago_prestamo', [], function (tx, results){});});
 	          	}

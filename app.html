@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Cobros ABC</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/material.deep_purple-pink.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+.mdl-demo main > .mdl-layout__tab-panel {
+    padding: 0px; 
+    padding-top: 0px; 
+}
+ul{
+  padding: 0px;
+}
+li{
+      margin: 10px;
+    background: #512da8;
+    color: #fff;
+    padding: 1em;
+    list-style: none;
+    font-size: 16px;
+}
+    </style>
+  </head>
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="text-align: center;">
+          <h3><center>Cobros Abc</center></h3>
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+          <a href="#overview" class="mdl-layout__tab is-active" onclick="sync()" style="width: 34px;"><i class="fa fa-download" aria-hidden="true"></i></a>
+          <a href="#overview" class="mdl-layout__tab is-active" onclick="refresh()" style="width: 34px;"> <i class="fa fa-refresh" aria-hidden="true"></i></a>
+          <a href="#overview" class="mdl-layout__tab is-active" onclick="upload()" style="width: 34px;"> <i class="fa fa-cloud-upload" aria-hidden="true"></i></a>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active" id="overview">
+        <table style="width:100%" border="1" id="tabla" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp"></table>
+
+        </div>
+      </main>
+    </div>
+    <script>
+      mostrar_prestamos();
+    </script>
+  </body>
+</html>

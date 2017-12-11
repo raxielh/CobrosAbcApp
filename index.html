@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Cobros ABC</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/material.deep_purple-pink.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    .mdl-textfield{
+      width: 100%;
+    }
+    .mdl-textfield__input{
+      font-size: 36px;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="text-align: center;">
+          <h3><center>Cobros Abc</center></h3>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active" id="overview">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="key">
+            <label class="mdl-textfield__label" for="sample4">Clave unica...</label>
+          </div>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="entrar">
+            Entrar
+          </button>
+        </div>
+      </main>
+    </div>
+    <script>
+db.transaction(function (tx) {
+    tx.executeSql('CREATE TABLE prestamos (prestamo,nombre,identificacion,cuota)');
+});
+
+db.transaction(function (tx) {
+    tx.executeSql('CREATE TABLE pago_prestamo (prestamo,cuota)');
+});
+
+db.transaction(function (tx) {
+    tx.executeSql('CREATE TABLE cobro (cobro_id)');
+});
+      db.transaction(function (tx) {
+        tx.executeSql('SELECT * FROM cobro', [], function (tx, results) {
+          var len = results.rows.length, i;
+          for (i = 0; i < len; i++) {
+            console.log(results.rows.item(i).cobro_id);
+          }
+          if(results.rows.length==0){
+
+          }else{
+            location.href ="app.html";
+          }
+
+        });
+      });
+    </script>
+  </body>
+</html>

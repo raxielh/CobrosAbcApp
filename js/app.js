@@ -110,7 +110,7 @@ function upload(){
           }else{
           	  for (i = 0; i < len; i++) {
           	  	var uri=url+'key/';
-				console.log(uri);/*
+				console.log(url);/*
 				$.getJSON(uri, function(json, textStatus) {
 					console.log(json);
 				});

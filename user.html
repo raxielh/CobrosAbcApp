@@ -39,43 +39,48 @@
       </header>
       <main class="mdl-layout__content">
         <div class="mdl-layout__tab-panel is-active" id="overview">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="key">
-            <label class="mdl-textfield__label" for="sample4">Clave unica...</label>
-          </div>
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="entrar">
-            Elejir cobrador ->
+          <select class="browser-default" id="select" style="width: 100%;padding: 0.5em;margin-bottom: 50px;font-size: 20px;">
+          </select>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="entrar2">
+            Entrar
           </button>
         </div>
       </main>
     </div>
     <script>
-
-db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE prestamos (prestamo,nombre,identificacion,cuota,key)');
-});
-
-db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE pago_prestamo (prestamo,cuota,key,user)');
-});
-
-db.transaction(function (tx) {
-    tx.executeSql('CREATE TABLE cobro (cobro_id,key,user)');
-});
-      db.transaction(function (tx) {
-        tx.executeSql('SELECT * FROM cobro', [], function (tx, results) {
-          var len = results.rows.length, i;
-          for (i = 0; i < len; i++) {
-            console.log(results.rows.item(i).cobro_id);
-          }
-          if(results.rows.length==0){
-
-          }else{
-            location.href ="app.html";
-          }
-
+      $(function() {
+        console.log('ok');
+        var cobro = getParameterByName('cobro');
+        var key = getParameterByName('key');
+        var uri=url+'key_user/'+cobro;
+        var d ='<option value="" disabled selected>Elija un Cobrador</option>';
+        $.getJSON(uri, function(json, textStatus) {
+          $.each( json, function( key, value ) {
+            console.log(value);
+            d+='<option value="'+value.id+'">'+value.name+'</option>';
+          });
+          $("#select").append(d);
         });
+      
+        $('#entrar2').click(function(event) {
+          $user=$('#select').val();
+          db.transaction(function (tx) {
+            tx.executeSql('INSERT INTO cobro (cobro_id,key,user) VALUES ('+cobro+','+key+','+$user+')');
+          });
+          location.href ="app.html";
+        });
+
+
+
+
+
       });
+      function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
     </script>
   </body>
 </html>
